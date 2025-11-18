@@ -1,0 +1,66 @@
+<div class="register-container">
+  <div class="register-card">
+    <div class="icon-wrapper">
+      <svg class="register-icon" width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="registerGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+          </linearGradient>
+        </defs>
+        <rect width="64" height="64" rx="12" fill="url(#registerGradient)"/>
+        <path d="M20 24h24M20 32h16M20 40h12" stroke="white" stroke-width="3" stroke-linecap="round"/>
+      </svg>
+    </div>
+
+    <h1 class="title">Register new account</h1>
+
+    <form class="register-form" (ngSubmit)="onRegister()">
+      <div class="form-group">
+        <label for="email" class="form-label">Email Address:</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          class="form-input"
+          placeholder="Enter your email"
+          [(ngModel)]="email"
+          required>
+      </div>
+
+      <div class="form-group">
+        <label for="password" class="form-label">Password:</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          class="form-input"
+          placeholder="Enter your password"
+          [(ngModel)]="password"
+          required>
+      </div>
+
+      <div class="form-group">
+        <label for="confirmPassword" class="form-label">Password Confirm:</label>
+        <input
+          type="password"
+          id="confirmPassword"
+          name="confirmPassword"
+          class="form-input"
+          placeholder="Confirm your password"
+          [(ngModel)]="confirmPassword"
+          required>
+      </div>
+
+      <button type="submit" class="register-btn">Register</button>
+
+      <div class="divider">
+        <span class="divider-text">Or continue with</span>
+      </div>
+
+      <button type="button" class="login-btn" (click)="onLogin()">
+        Login
+      </button>
+    </form>
+  </div>
+</div>

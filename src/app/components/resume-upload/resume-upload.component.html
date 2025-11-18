@@ -1,0 +1,58 @@
+<div class="upload-card">
+  <div class="card-header">
+    <svg class="icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="4" y="4" width="16" height="16" rx="2" stroke="currentColor" stroke-width="2"/>
+      <line x1="8" y1="10" x2="16" y2="10" stroke="currentColor" stroke-width="2"/>
+      <line x1="8" y1="14" x2="13" y2="14" stroke="currentColor" stroke-width="2"/>
+    </svg>
+    <h2 class="title">Upload Your Resume</h2>
+  </div>
+
+  <div 
+    class="dropzone"
+    [class.dragover]="isDragging"
+    (click)="fileInput.click()"
+    (dragover)="onDragOver($event)"
+    (dragleave)="onDragLeave($event)"
+    (drop)="onDrop($event)">
+    
+    <div class="upload-icon-wrapper">
+      <svg class="upload-icon" width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="uploadGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+          </linearGradient>
+        </defs>
+        <circle cx="24" cy="24" r="24" fill="url(#uploadGradient)"/>
+        <path d="M24 16V32M24 16L18 22M24 16L30 22" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M16 28V32C16 33.1046 16.8954 34 18 34H30C31.1046 34 32 33.1046 32 32V28" stroke="white" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </div>
+
+    <h3 class="dropzone-title">Upload Your Resume</h3>
+    <p class="dropzone-text">Drag and drop your resume here, or click to browse</p>
+
+    <div class="file-types">
+      <span class="badge badge-pdf">PDF</span>
+      <span class="badge badge-docx">DOCX</span>
+      <span class="badge badge-txt">TXT</span>
+      <span class="badge badge-max">Max 10MB</span>
+    </div>
+
+    <input
+      #fileInput
+      type="file"
+      class="file-input"
+      accept=".pdf,.doc,.docx,.txt"
+      (change)="onFileSelected($event)">
+  </div>
+
+  <div *ngIf="selectedFile" class="selected-file">
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+      <path d="M10 0C4.48 0 0 4.48 0 10s4.48 10 10 10 10-4.48 10-10S15.52 0 10 0zm-2 15l-5-5 1.41-1.41L8 12.17l7.59-7.59L17 6l-9 9z" fill="#3eb489"/>
+    </svg>
+    <span class="file-name">{{ selectedFile.name }}</span>
+    <button class="remove-btn" (click)="removeFile($event)">×</button>
+  </div>
+</div>

@@ -1,0 +1,22 @@
+<div class="app-container">
+  <app-header 
+    (navigateToHome)="showHomePage()" 
+    (navigateToLogin)="showLoginPage()">
+  </app-header>
+  
+  <main class="main-content" *ngIf="currentPage === 'home'">
+    <app-resume-upload></app-resume-upload>
+  </main>
+
+  <app-login 
+    *ngIf="currentPage === 'login'"
+    (navigateToRegister)="showRegisterPage()">
+  </app-login>
+  
+  <app-register 
+    *ngIf="currentPage === 'register'"
+    (navigateToLogin)="showLoginPage()">
+  </app-register>
+
+  <app-footer></app-footer>
+</div>
