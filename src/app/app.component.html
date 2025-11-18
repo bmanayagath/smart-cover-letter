@@ -1,9 +1,15 @@
 <div class="app-container">
   <app-header 
-    (navigateToHome)="showHomePage()" 
+    (navigateToHome)="currentPage === 'landing' ? showLandingPage() : showHomePage()" 
     (navigateToLogin)="showLoginPage()">
   </app-header>
   
+  <app-landing 
+    *ngIf="currentPage === 'landing'"
+    (navigateToUpload)="showHomePage()"
+    (navigateToLogin)="showLoginPage()">
+  </app-landing>
+
   <main class="main-content" *ngIf="currentPage === 'home'">
     <app-resume-upload></app-resume-upload>
   </main>

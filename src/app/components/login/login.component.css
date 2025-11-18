@@ -34,7 +34,15 @@
   -webkit-text-fill-color: transparent;
   background-clip: text;
   text-align: center;
-  margin: 0 0 40px 0;
+  margin: 0 0 12px 0;
+}
+
+.subtitle {
+  text-align: center;
+  color: #6b7280;
+  font-size: 15px;
+  margin: 0 0 32px 0;
+  line-height: 1.5;
 }
 
 .login-form {
@@ -73,6 +81,29 @@
   box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
 }
 
+.form-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: -8px;
+}
+
+.remember-me {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #4b5563;
+}
+
+.checkbox {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  accent-color: #667eea;
+}
+
 .login-btn {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
@@ -100,9 +131,8 @@
   color: #667eea;
   font-size: 14px;
   text-decoration: none;
-  text-align: left;
   transition: color 0.2s;
-  margin-top: -8px;
+  font-weight: 500;
 }
 
 .forgot-password:hover {
@@ -148,7 +178,17 @@
   white-space: nowrap;
 }
 
-.register-btn {
+.social-buttons {
+  display: flex;
+  gap: 12px;
+}
+
+.social-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
   background-color: white;
   color: #1f2937;
   border: 2px solid #e5e7eb;
@@ -160,14 +200,43 @@
   transition: all 0.3s;
 }
 
-.register-btn:hover {
-  background: linear-gradient(135deg, #faf5ff 0%, #f5f3ff 100%);
-  border-color: #667eea;
+.social-btn:hover {
+  border-color: #d1d5db;
+  background-color: #f9fafb;
   transform: translateY(-1px);
 }
 
-.register-btn:active {
-  transform: translateY(0);
+.google-btn:hover {
+  border-color: #4285F4;
+  background-color: #f8fbff;
+}
+
+.github-btn:hover {
+  border-color: #1f2937;
+  background-color: #f9fafb;
+}
+
+.signup-prompt {
+  text-align: center;
+  color: #6b7280;
+  font-size: 14px;
+  margin: 0;
+}
+
+.register-link {
+  background: none;
+  border: none;
+  color: #667eea;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color 0.2s;
+  font-size: 14px;
+  padding: 0;
+}
+
+.register-link:hover {
+  color: #764ba2;
+  text-decoration: underline;
 }
 
 @media (max-width: 640px) {
@@ -177,10 +246,24 @@
 
   .title {
     font-size: 24px;
-    margin-bottom: 32px;
+  }
+
+  .subtitle {
+    font-size: 14px;
+    margin-bottom: 24px;
   }
 
   .login-form {
     gap: 20px;
+  }
+
+  .social-buttons {
+    flex-direction: column;
+  }
+
+  .form-options {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
   }
 }
