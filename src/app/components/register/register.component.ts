@@ -17,6 +17,9 @@ export class RegisterComponent implements OnInit {
   errorMessage = '';
   successMessage = ''; // kept for compatibility
 
+  // hold multiple server validation messages
+  errorMessages: string[] = [];
+
   // new toast state
   toastVisible = false;
   toastMessage = '';
@@ -42,8 +45,44 @@ export class RegisterComponent implements OnInit {
     this.toastMessage = message;
     this.toastType = type;
     this.toastVisible = true;
-    // hide after duration
     setTimeout(() => (this.toastVisible = false), duration);
+  }
+
+  private parseServerErrors(err: any): string[] {
+    const out: string[] = [];
+
+    const body = err?.error ?? err;
+
+    // common structure: an array of { code, description }
+    if (Array.isArray(body)) {
+      for (const item of body) {
+        if (typeof item === 'string') out.push(item);
+        else if (item?.description) out.push(item.description);
+        else if (item?.message) out.push(item.message);
+        else out.push(JSON.stringify(item));
+      }
+      return out;
+    }
+
+    // structure: { errors: [...] }
+    if (body?.errors && Array.isArray(body.errors)) {
+      for (const item of body.errors) {
+        if (typeof item === 'string') out.push(item);
+        else if (item?.description) out.push(item.description);
+        else if (item?.message) out.push(item.message);
+        else out.push(JSON.stringify(item));
+      }
+      return out;
+    }
+
+    // structure: { message: '...' } or simple string
+    if (typeof body === 'string') return [body];
+    if (body?.message) return [body.message];
+
+    // fallback to generic message from HttpErrorResponse
+    if (err?.message) return [err.message];
+
+    return ['Registration failed'];
   }
 
   onSubmit(): void {
@@ -55,6 +94,7 @@ export class RegisterComponent implements OnInit {
     this.loading = true;
     this.errorMessage = '';
     this.successMessage = '';
+    this.errorMessages = [];
 
     const payload = {
       Email: this.registerForm.value.email,
@@ -65,19 +105,15 @@ export class RegisterComponent implements OnInit {
       next: () => {
         this.loading = false;
         this.errorMessage = '';
-        this.successMessage = 'Registration successful — redirecting to login...';
+        this.errorMessages = [];
+        this.successMessage = 'Registration successful';
 
-        // show toast
         this.showToast(this.successMessage, 'success', 1500);
 
-        // try router navigation; fallback to full-page redirect if Router doesn't navigate
         setTimeout(async () => {
           try {
             const nav = await this.router.navigate(['/login']);
-            if (!nav) {
-              // fallback if router couldn't navigate
-              window.location.href = '/login';
-            }
+            if (!nav) window.location.href = '/login';
           } catch {
             window.location.href = '/login';
           }
@@ -86,15 +122,16 @@ export class RegisterComponent implements OnInit {
       error: (err) => {
         this.loading = false;
         this.successMessage = '';
-        const msg = err?.error?.message || 'Registration failed';
-        this.errorMessage = msg;
-        this.showToast(msg, 'error', 3000);
+        // parse server validation messages
+        const msgs = this.parseServerErrors(err);
+        this.errorMessages = msgs;
+        this.errorMessage = msgs.length ? msgs.join(' • ') : (err?.error?.message || 'Registration failed');
+        this.showToast(this.errorMessage, 'error', 4000);
       }
     });
   }
 
   onLogin(): void {
-    // immediate navigation / fallback
     try {
       this.router.navigate(['/login']).then(ok => { if (!ok) window.location.href = '/login'; });
     } catch {

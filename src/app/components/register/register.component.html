@@ -39,9 +39,11 @@
         </div>
       </div>
 
-      <!-- API Error Message -->
-      <div class="error-message" *ngIf="errorMessage">
-        {{ errorMessage }}
+      <!-- server validation messages -->
+      <div *ngIf="errorMessages?.length" class="error-message">
+        <ul>
+          <li *ngFor="let m of errorMessages">{{ m }}</li>
+        </ul>
       </div>
 
       <!-- Success Message (inline) -->
