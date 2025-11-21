@@ -28,6 +28,17 @@ export class AuthService {
     return this.http.post(url, payload);
   }
 
+  login(payload: { Email: string; Password: string }) {
+    const url = `${this.base}/api/auth/login`;
+    return this.http.post<{ token: string }>(url, payload).pipe(
+      map(resp => resp && resp.token ? resp.token : null),
+      map(token => {
+        if (token) this.setToken(token);
+        return token;
+      })
+    );
+  }
+
   setToken(token: string) {
     try {
       localStorage.setItem(this.tokenKey, token);

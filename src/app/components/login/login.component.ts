@@ -63,8 +63,22 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   onLogin(): void {
-    console.log('Login attempt:', { email: this.email, password: '***' });
-    // Add your login logic here
+    // call backend login and set token via AuthService
+    this.auth.login({ Email: this.email, Password: this.password }).subscribe({
+      next: token => {
+        if (token) {
+          console.log('[login] login succeeded, navigating home');
+          const home = (environment as any).homeRoute || '/';
+          this.ngZone.run(() => this.router.navigateByUrl(home));
+        } else {
+          console.warn('[login] login returned no token');
+        }
+      },
+      error: err => {
+        console.error('[login] login failed', err);
+        // TODO: show user-friendly error message
+      }
+    });
   }
 
   onForgotPassword(): void {
