@@ -14,11 +14,28 @@ export class JwtInterceptor implements HttpInterceptor {
       const skipPaths = ['/api/auth/login', '/api/auth/register', '/api/auth/google-login', '/api/auth/external', '/api/auth/me'];
       const url = req.url || '';
       const shouldSkip = skipPaths.some(p => url.includes(p));
-      if (!token || shouldSkip) {
+      if (shouldSkip) {
+        // don't attach Authorization for these paths, but still forward request
         return next.handle(req);
       }
 
-      const authReq = req.clone({ setHeaders: { Authorization: `Bearer ${token}` } });
+      const setHeaders: { [key: string]: string } = {};
+      if (token) {
+        setHeaders['Authorization'] = `Bearer ${token}`;
+      }
+
+      // Ensure we accept JSON responses by default
+      if (!req.headers.has('Accept')) {
+        setHeaders['Accept'] = 'application/json';
+      }
+
+      // Don't set Content-Type for FormData (browser will set boundary). For other bodies, default to JSON when not already present.
+      const isFormData = req.body instanceof FormData;
+      if (!isFormData && !req.headers.has('Content-Type')) {
+        setHeaders['Content-Type'] = 'application/json';
+      }
+
+      const authReq = req.clone({ setHeaders });
       return next.handle(authReq);
     } catch (e) {
       return next.handle(req);
