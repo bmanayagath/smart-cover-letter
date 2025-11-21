@@ -21,6 +21,11 @@ export class JwtInterceptor implements HttpInterceptor {
 
       const setHeaders: { [key: string]: string } = {};
       if (token) {
+        // mask token when logging for privacy
+        try {
+          const masked = token.length > 10 ? token.slice(0, 6) + '...' + token.slice(-4) : '***';
+          console.debug('[JwtInterceptor] attaching token', masked, 'to', url);
+        } catch {}
         setHeaders['Authorization'] = `Bearer ${token}`;
       }
 
