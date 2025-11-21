@@ -17,5 +17,9 @@ export const appRoutes: Routes = [
     path: 'auth/auth-callback',
     loadComponent: () => import('./components/auth-callback/auth-callback.component').then(m => m.AuthCallbackComponent)
   },
+  {
+    path: 'job-details',
+    loadComponent: () => import('./components/job-form/job-form.component').then(m => m.JobFormComponent)
+  },
   { path: '**', redirectTo: '' }
 ];

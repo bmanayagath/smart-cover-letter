@@ -1,0 +1,54 @@
+.job-form-card {
+  background: white;
+  border-radius: 12px;
+  padding: 28px;
+  max-width: 800px;
+  box-shadow: 0 12px 40px rgba(2,6,23,0.06);
+}
+
+.job-form-card h2 {
+  margin: 0 0 12px 0;
+  font-size: 20px;
+  background: linear-gradient(135deg,#667eea 0%,#764ba2 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.field {
+  display: block;
+  margin-bottom: 12px;
+}
+
+.field .label {
+  font-size: 13px;
+  color: #374151;
+  margin-bottom: 6px;
+}
+
+input[type="text"], textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #e6eef8;
+  background: #fbfdff;
+  font-size: 14px;
+}
+
+textarea {
+  resize: vertical;
+}
+
+.actions {
+  margin-top: 16px;
+}
+
+.btn-submit {
+  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+  color: #fff;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 999px;
+  font-weight: 700;
+  cursor: pointer;
+}

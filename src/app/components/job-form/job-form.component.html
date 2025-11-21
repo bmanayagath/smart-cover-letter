@@ -1,0 +1,26 @@
+<div class="job-form-card">
+  <h2>Job Details</h2>
+
+  <div *ngIf="uploadedFilename" class="uploaded-info">Uploaded file: <strong>{{ uploadedFilename }}</strong></div>
+
+  <form (ngSubmit)="submit()">
+    <label class="field">
+      <div class="label">Hiring Manager</div>
+      <input name="hiringManager" [(ngModel)]="hiringManager" placeholder="Hiring manager name" />
+    </label>
+
+    <label class="field">
+      <div class="label">Company Name</div>
+      <input name="companyName" [(ngModel)]="companyName" placeholder="Company name" />
+    </label>
+
+    <label class="field">
+      <div class="label">Job Description</div>
+      <textarea name="jobDescription" [(ngModel)]="jobDescription" rows="8" placeholder="Paste the job posting or description here"></textarea>
+    </label>
+
+    <div class="actions">
+      <button type="submit" class="btn-submit">Save & Continue</button>
+    </div>
+  </form>
+</div>
