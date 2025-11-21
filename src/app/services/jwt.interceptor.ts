@@ -9,7 +9,6 @@ export class JwtInterceptor implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     try {
-         console.debug('[JwtInterceptor]');
       const token = this.auth.getToken();
       // don't attach token for auth endpoints (login/register and common external callbacks)
       const skipPaths = ['/api/auth/login', '/api/auth/register', '/api/auth/google-login', '/api/auth/external', '/api/auth/me'];
@@ -25,7 +24,6 @@ export class JwtInterceptor implements HttpInterceptor {
         // mask token when logging for privacy
         try {
           const masked = token.length > 10 ? token.slice(0, 6) + '...' + token.slice(-4) : '***';
-          console.debug('[JwtInterceptor] attaching token', masked, 'to', url);
         } catch {}
         setHeaders['Authorization'] = `Bearer ${token}`;
       }
