@@ -111,12 +111,7 @@ export class RegisterComponent implements OnInit {
         this.showToast(this.successMessage, 'success', 1500);
 
         setTimeout(async () => {
-          try {
-            const nav = await this.router.navigate(['/login']);
-            if (!nav) window.location.href = '/login';
-          } catch {
-            window.location.href = '/login';
-          }
+         await this.router.navigate(['/login']);
         }, 1500);
       },
       error: (err) => {
