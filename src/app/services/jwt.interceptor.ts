@@ -9,6 +9,7 @@ export class JwtInterceptor implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     try {
+         console.debug('[JwtInterceptor]');
       const token = this.auth.getToken();
       // don't attach token for auth endpoints (login/register and common external callbacks)
       const skipPaths = ['/api/auth/login', '/api/auth/register', '/api/auth/google-login', '/api/auth/external', '/api/auth/me'];
