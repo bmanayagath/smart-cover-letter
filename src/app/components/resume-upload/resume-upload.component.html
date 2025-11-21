@@ -55,4 +55,11 @@
     <span class="file-name">{{ selectedFile.name }}</span>
     <button class="remove-btn" (click)="removeFile($event)">×</button>
   </div>
+
+  <div class="upload-actions" *ngIf="selectedFile" style="margin-top:12px">
+    <button class="btn-upload" (click)="upload()" [disabled]="uploading">Upload</button>
+    <span *ngIf="uploading" style="margin-left:8px">Uploading...</span>
+    <span *ngIf="uploadSuccess" style="color:green; margin-left:8px">Upload successful.</span>
+    <span *ngIf="uploadError" style="color:red; margin-left:8px">{{ uploadError }}</span>
+  </div>
 </div>

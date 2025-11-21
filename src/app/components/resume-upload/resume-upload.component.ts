@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ResumeUploadService } from '../../services/resume-upload.service';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -11,6 +12,11 @@ import { CommonModule } from '@angular/common';
 export class ResumeUploadComponent {
   isDragging = false;
   selectedFile: File | null = null;
+  uploading = false;
+  uploadError: string | null = null;
+  uploadSuccess = false;
+
+  constructor(private uploadService: ResumeUploadService) {}
 
   onDragOver(event: DragEvent): void {
     event.preventDefault();
@@ -59,6 +65,26 @@ export class ResumeUploadComponent {
 
     this.selectedFile = file;
     console.log('File selected:', file.name);
+  }
+
+  upload(): void {
+    this.uploadError = null;
+    this.uploadSuccess = false;
+    if (!this.selectedFile) {
+      this.uploadError = 'No file selected';
+      return;
+    }
+    this.uploading = true;
+    this.uploadService.uploadFile(this.selectedFile).subscribe({
+      next: () => {
+        this.uploading = false;
+        this.uploadSuccess = true;
+      },
+      error: (err) => {
+        this.uploading = false;
+        this.uploadError = (err?.error?.message || err?.message || String(err));
+      }
+    });
   }
 
   removeFile(event: Event): void {
