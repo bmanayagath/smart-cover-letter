@@ -10,3 +10,52 @@ html, body {
   background-color: #f8f9fa;
   color: #1f2937;
 }
+
+/* Global styles for header dropdown portal (rendered into document.body) */
+.user-dropdown {
+  min-width: 180px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.04));
+  color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 10px 40px rgba(18,22,40,0.5);
+  border: 1px solid rgba(255,255,255,0.06);
+  transform-origin: top right;
+  opacity: 1;
+  pointer-events: auto;
+  z-index: 2147483647 !important;
+  backdrop-filter: blur(8px);
+  padding: 6px 8px;
+}
+
+.user-dropdown .dropdown-item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 10px 14px;
+  background: transparent;
+  border: none;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  cursor: pointer;
+  color: rgba(255,255,255,0.95);
+  border-radius: 6px;
+  margin: 4px 0;
+}
+
+.user-dropdown .dropdown-item:hover {
+  background: rgba(255,255,255,0.04);
+}
+
+.user-dropdown::before {
+  content: '';
+  position: absolute;
+  top: -6px;
+  right: 18px;
+  width: 12px;
+  height: 12px;
+  transform: rotate(45deg);
+  background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.04));
+  border-left: 1px solid rgba(255,255,255,0.06);
+  border-top: 1px solid rgba(255,255,255,0.06);
+}

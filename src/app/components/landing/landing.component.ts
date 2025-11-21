@@ -1,5 +1,8 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../../services/auth.service';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-landing',
@@ -8,9 +11,11 @@ import { CommonModule } from '@angular/common';
   templateUrl: './landing.component.html',
   styleUrls: ['./landing.component.css']
 })
-export class LandingComponent {
+export class LandingComponent implements OnInit {
   @Output() navigateToUpload = new EventEmitter<void>();
   @Output() navigateToLogin = new EventEmitter<void>();
+
+  public isLoggedIn$: Observable<boolean>;
 
   features = [
     {
@@ -34,6 +39,13 @@ export class LandingComponent {
       description: 'Our letters are optimized to pass Applicant Tracking Systems and reach human recruiters.'
     }
   ];
+
+  constructor(private auth: AuthService) {
+    this.isLoggedIn$ = this.auth.currentUser$.pipe(map(u => !!u));
+  }
+
+  ngOnInit(): void {
+  }
 
   onGetStarted(): void {
     this.navigateToUpload.emit();
