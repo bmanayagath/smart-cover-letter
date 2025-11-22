@@ -1,7 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { ResumeUploadService } from '../../services/resume-upload.service';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-resume-upload',
@@ -17,7 +16,9 @@ export class ResumeUploadComponent {
   uploadError: string | null = null;
   uploadSuccess = false;
 
-  constructor(private uploadService: ResumeUploadService, private router: Router) {}
+  @Output() uploadComplete = new EventEmitter<{ filename?: string; response?: any }>();
+
+  constructor(private uploadService: ResumeUploadService) {}
 
   onDragOver(event: DragEvent): void {
     event.preventDefault();
@@ -80,9 +81,8 @@ export class ResumeUploadComponent {
       next: (res) => {
         this.uploading = false;
         this.uploadSuccess = true;
-        // navigate to job-details form and pass filename/response in navigation state
         try {
-          this.router.navigate(['/job-details'], { state: { filename: this.selectedFile?.name, uploadResponse: res } });
+          this.uploadComplete.emit({ filename: this.selectedFile?.name, response: res });
         } catch {}
       },
       error: (err) => {

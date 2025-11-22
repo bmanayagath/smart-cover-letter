@@ -4,19 +4,20 @@ import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { LandingComponent } from './components/landing/landing.component';
 import { ResumeUploadComponent } from './components/resume-upload/resume-upload.component';
+import { JobFormComponent } from './components/job-form/job-form.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, HeaderComponent, FooterComponent, LandingComponent, ResumeUploadComponent, LoginComponent, RegisterComponent],
+  imports: [CommonModule, HeaderComponent, FooterComponent, LandingComponent, ResumeUploadComponent, JobFormComponent, LoginComponent, RegisterComponent],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
   title = 'AI Cover Letter Generator';
-  currentPage: 'landing' | 'home' | 'login' | 'register' = 'landing';
+  currentPage: 'landing' | 'home' | 'login' | 'register' | 'job-form' = 'landing';
 
   showLoginPage(): void {
     this.currentPage = 'login';
@@ -32,5 +33,9 @@ export class AppComponent {
 
   showLandingPage(): void {
     this.currentPage = 'landing';
+  }
+
+  showJobForm(): void {
+    this.currentPage = 'job-form';
   }
 }

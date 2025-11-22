@@ -11,7 +11,11 @@
   </app-landing>
 
   <main class="main-content" *ngIf="currentPage === 'home'">
-    <app-resume-upload></app-resume-upload>
+    <app-resume-upload (uploadComplete)="showJobForm()"></app-resume-upload>
+  </main>
+
+  <main class="main-content" *ngIf="currentPage === 'job-form'">
+    <app-job-form></app-job-form>
   </main>
 
   <app-login 
