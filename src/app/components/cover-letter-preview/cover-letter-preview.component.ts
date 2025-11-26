@@ -43,25 +43,7 @@ export class CoverLetterPreviewComponent {
     navigator.clipboard.writeText(text).catch(() => {});
   }
 
-  async generatePdfBlob() {
-    // dynamic import so the app still builds without the package installed; user must `npm install jspdf`
-    try {
-      const module = await import('jspdf');
-      const { jsPDF } = module as any;
-      const doc = new jsPDF({ unit: 'pt', format: 'a4' });
-      const text = this.coverLetter || '';
-      const margin = 40;
-      const pageWidth = doc.internal.pageSize.getWidth() - margin * 2;
-      const lines = (doc as any).splitTextToSize ? doc.splitTextToSize(text, pageWidth) : [text];
-      doc.setFontSize(12);
-      doc.text(lines, margin, 60);
-      const blob = doc.output('blob');
-      return blob as Blob;
-    } catch (err) {
-      console.error('PDF generation failed; did you install jspdf?', err);
-      return null;
-    }
-  }
+  
 
   
 
