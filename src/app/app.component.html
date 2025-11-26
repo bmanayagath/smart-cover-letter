@@ -15,7 +15,11 @@
   </main>
 
   <main class="main-content" *ngIf="currentPage === 'job-form'">
-    <app-job-form></app-job-form>
+    <app-job-form (back)="showHomePage()"></app-job-form>
+  </main>
+
+  <main class="main-content" *ngIf="currentPage === 'cover-preview'">
+    <app-cover-letter-preview [coverLetter]="generatedCoverLetter" (close)="showHomePage()"></app-cover-letter-preview>
   </main>
 
   <app-login 

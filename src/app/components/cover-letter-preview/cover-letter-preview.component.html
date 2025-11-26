@@ -1,0 +1,28 @@
+<div class="preview-shell">
+  <div class="preview-header">
+    <div>
+      <h3>Cover Letter Preview</h3>
+      <div class="meta">
+        <span *ngIf="companyName" class="meta-company">{{ companyName }}</span>
+        <span *ngIf="hiringManager" class="meta-manager"> • Attn: {{ hiringManager }}</span>
+      </div>
+    </div>
+    <div class="controls">
+        <button class="btn small" (click)="copy()">Copy</button>
+        <button class="btn small" (click)="downloadAsTxt()">Download TXT</button>
+        <button class="btn small" (click)="print()">Print</button>
+        <button class="btn ghost" (click)="closeClick()">Close</button>
+    </div>
+  </div>
+
+  <div class="preview-body">
+      <pre class="cover-text" *ngIf="!pdfUrl">{{ coverLetter || 'No cover letter generated yet.' }}</pre>
+      <div class="pdf-frame" *ngIf="pdfUrl">
+        <iframe [src]="pdfUrl" frameborder="0"></iframe>
+      </div>
+  </div>
+
+  <div class="preview-footer">
+    <small class="hint">Tip: Use "Download" to save a copy or "Copy" to paste into an application.</small>
+  </div>
+</div>

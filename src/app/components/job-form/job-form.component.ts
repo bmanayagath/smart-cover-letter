@@ -1,6 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-job-form',
@@ -31,6 +31,19 @@ export class JobFormComponent {
     'Startup Style'
   ];
 
+  @Output() back = new EventEmitter<void>();
+  @Output() save = new EventEmitter<{
+    hiringManager: string;
+    companyName: string;
+    jobDescription: string;
+    regionStyle: string;
+    uploadedFilename?: string | null;
+  }>();
+
+  goBack() {
+    try { this.back.emit(); } catch {}
+  }
+
   constructor() {
     // try to read navigation state (if coming from upload)
     try {
@@ -41,14 +54,28 @@ export class JobFormComponent {
     } catch {}
   }
 
-  submit() {
-    // for now just log the values; you can wire this to an API later
-    console.log('Job details submitted', {
+  submit(form?: NgForm) {
+
+    if (form && form.invalid) {
+      // mark all fields as touched so validation messages show
+      try { form.form.markAllAsTouched(); 
+
+            alert('Submitting job details...');
+      } catch {}
+      return;
+    }
+
+    // valid -> proceed: emit the validated job details so parent can navigate / call API
+    const payload = {
       hiringManager: this.hiringManager,
       companyName: this.companyName,
       jobDescription: this.jobDescription,
+      regionStyle: this.regionStyle,
       uploadedFilename: this.uploadedFilename
-    });
-    alert('Job details saved (demo)');
+    };
+    console.log('Job details submitted', payload);
+    this.save.emit(payload);
+    try { window.dispatchEvent(new CustomEvent('navigateToCoverPreview')); } catch {}
+   
   }
 }

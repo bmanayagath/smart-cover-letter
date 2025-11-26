@@ -24,9 +24,9 @@ export class LandingComponent implements OnInit {
       description: 'Our advanced AI analyzes your resume and creates personalized cover letters that highlight your strengths.'
     },
     {
-      icon: 'target',
-      title: 'Job-Specific Content',
-      description: 'Tailored content that matches the job description and company culture, increasing your interview chances.'
+      icon: 'globe',
+      title: 'Location-Specific Content',
+      description: 'Tone, spelling, and cultural style adjusted for the target region (US, UK, Canada, Australia, GCC, India, Singapore, Malaysia and more).' 
     },
     {
       icon: 'clock',

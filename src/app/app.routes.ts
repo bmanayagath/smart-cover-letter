@@ -21,5 +21,9 @@ export const appRoutes: Routes = [
     path: 'job-details',
     loadComponent: () => import('./components/job-form/job-form.component').then(m => m.JobFormComponent)
   },
+   {
+    path: 'app-cover-letter-preview',
+    loadComponent: () => import('./components/cover-letter-preview/cover-letter-preview.component').then(m => m.CoverLetterPreviewComponent)
+  },
   { path: '**', redirectTo: '' }
 ];

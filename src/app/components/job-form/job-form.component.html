@@ -3,32 +3,37 @@
 
   <div *ngIf="uploadedFilename" class="uploaded-info">Uploaded file: <strong>{{ uploadedFilename }}</strong></div>
 
-  <form (ngSubmit)="submit()">
+  <form #jobForm="ngForm" (ngSubmit)="submit(jobForm)">
     <label class="field">
       <div class="label">Hiring Manager</div>
-      <input type="text" name="hiringManager" [(ngModel)]="hiringManager" placeholder="Hiring manager name" />
+      <input type="text" name="hiringManager" required #hiringManagerCtrl="ngModel" [(ngModel)]="hiringManager" placeholder="Hiring manager name" />
+      <div class="error" *ngIf="hiringManagerCtrl.invalid && hiringManagerCtrl.touched">Hiring manager is required.</div>
     </label>
 
     <label class="field">
       <div class="label">Company Name</div>
-      <input type="text" name="companyName" [(ngModel)]="companyName" placeholder="Company name" />
+      <input type="text" name="companyName" required #companyNameCtrl="ngModel" [(ngModel)]="companyName" placeholder="Company name" />
+      <div class="error" *ngIf="companyNameCtrl.invalid && companyNameCtrl.touched">Company name is required.</div>
     </label>
 
     <label class="field">
       <div class="label">Region / Writing Style</div>
-      <select name="regionStyle" [(ngModel)]="regionStyle">
-        <option value="" disabled selected>Select style or region</option>
+      <select name="regionStyle" required #regionCtrl="ngModel" [(ngModel)]="regionStyle">
+        <option value="" disabled>Select style or region</option>
         <option *ngFor="let opt of regionStyleOptions" [value]="opt">{{ opt }}</option>
       </select>
+      <div class="error" *ngIf="regionCtrl.invalid && regionCtrl.touched">Please select a region or writing style.</div>
     </label>
 
     <label class="field">
       <div class="label">Job Description</div>
-      <textarea name="jobDescription" [(ngModel)]="jobDescription" rows="8" placeholder="Paste the job posting or description here"></textarea>
+      <textarea name="jobDescription" required #jobDescCtrl="ngModel" [(ngModel)]="jobDescription" rows="8" placeholder="Paste the job posting or description here"></textarea>
+      <div class="error" *ngIf="jobDescCtrl.invalid && jobDescCtrl.touched">Job description is required.</div>
     </label>
 
     <div class="actions">
-      <button type="submit" class="btn-submit">Save & Continue</button>
+      <button type="button" class="btn-back" (click)="goBack()">Back</button>
+      <button type="submit" class="btn-submit" [disabled]="jobForm.invalid">Save & Continue</button>
     </div>
   </form>
 </div>
