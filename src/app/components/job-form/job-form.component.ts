@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -13,7 +13,23 @@ export class JobFormComponent {
   hiringManager = '';
   companyName = '';
   jobDescription = '';
-  uploadedFilename: string | null = null;
+  @Input() uploadedFilename: string | null = null;
+  regionStyle = '';
+
+  regionStyleOptions = [
+    'United States (US)',
+    'United Kingdom (UK)',
+    'Canada',
+    'Europe (General)',
+    'Australia',
+    'Middle East (GCC)',
+    'India',
+    'Singapore',
+    'Malaysia',
+    'Global Remote Style',
+    'Corporate Style',
+    'Startup Style'
+  ];
 
   constructor() {
     // try to read navigation state (if coming from upload)
