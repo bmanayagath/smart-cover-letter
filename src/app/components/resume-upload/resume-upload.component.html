@@ -1,4 +1,5 @@
 <div class="upload-card">
+  <app-loader [visible]="uploading" [message]="loaderMessage" ></app-loader>
   <div class="card-header">
     <svg class="icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
       <rect x="4" y="4" width="16" height="16" rx="2" stroke="currentColor" stroke-width="2"/>
@@ -56,9 +57,8 @@
     <button class="remove-btn" (click)="removeFile($event)">×</button>
   </div>
 
-  <div class="upload-actions" *ngIf="selectedFile" style="margin-top:12px">
+    <div class="upload-actions" *ngIf="selectedFile" style="margin-top:12px">
     <button class="btn-upload" (click)="upload()" [disabled]="uploading">Upload</button>
-    <span *ngIf="uploading" style="margin-left:8px">Uploading...</span>
     <span *ngIf="uploadSuccess" style="color:green; margin-left:8px">Upload successful.</span>
     <span *ngIf="uploadError" style="color:red; margin-left:8px">{{ uploadError }}</span>
   </div>

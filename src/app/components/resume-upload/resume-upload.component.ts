@@ -1,11 +1,12 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { ResumeUploadService } from '../../services/resume-upload.service';
 import { CommonModule } from '@angular/common';
+import { LoaderComponent } from '../loader/loader.component';
 
 @Component({
   selector: 'app-resume-upload',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, LoaderComponent],
   templateUrl: './resume-upload.component.html',
   styleUrls: ['./resume-upload.component.css']
 })
@@ -15,6 +16,7 @@ export class ResumeUploadComponent {
   uploading = false;
   uploadError: string | null = null;
   uploadSuccess = false;
+  loaderMessage = 'Uploading resume...';
 
   @Output() uploadComplete = new EventEmitter<{ filename?: string; response?: any }>();
 
@@ -76,6 +78,7 @@ export class ResumeUploadComponent {
       this.uploadError = 'No file selected';
       return;
     }
+    this.loaderMessage = 'Uploading resume... AI is analyzing your resume.';
     this.uploading = true;
     this.uploadService.uploadFile(this.selectedFile).subscribe({
       next: (res) => {
