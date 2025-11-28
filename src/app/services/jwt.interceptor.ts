@@ -28,14 +28,16 @@ export class JwtInterceptor implements HttpInterceptor {
         setHeaders['Authorization'] = `Bearer ${token}`;
       }
 
-      // Ensure we accept JSON responses by default
-      if (!req.headers.has('Accept')) {
+      // Only set Accept to JSON when the request expects JSON responses.
+      // Leave Accept alone for blob/file endpoints so the server can return binary data.
+      if (!req.headers.has('Accept') && (req.responseType === 'json' || !req.responseType)) {
         setHeaders['Accept'] = 'application/json';
       }
 
-      // Don't set Content-Type for FormData (browser will set boundary). For other bodies, default to JSON when not already present.
+      // Don't set Content-Type for FormData (browser will set boundary).
+      // Only set a default Content-Type when there is a body and it's not FormData.
       const isFormData = req.body instanceof FormData;
-      if (!isFormData && !req.headers.has('Content-Type')) {
+      if (req.body && !isFormData && !req.headers.has('Content-Type')) {
         setHeaders['Content-Type'] = 'application/json';
       }
 

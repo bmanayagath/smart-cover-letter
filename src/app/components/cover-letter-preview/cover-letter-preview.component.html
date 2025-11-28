@@ -16,9 +16,23 @@
   </div>
 
   <div class="preview-body">
-      <pre class="cover-text" *ngIf="!pdfUrl">{{ coverLetter || 'No cover letter generated yet.' }}</pre>
-      <div class="pdf-frame" *ngIf="pdfUrl">
-        <iframe [src]="pdfUrl" frameborder="0"></iframe>
+      <app-loader [visible]="loading || pdfLoading" [message]="loadingMessage || 'Generating cover letter...'" ></app-loader>
+      <pre class="cover-text" *ngIf="!pdfUrl && !pdfUrlInput">{{ coverLetter || 'No cover letter generated yet.' }}</pre>
+      <div *ngIf="pdfLoading" class="pdf-loading">Loading PDF…</div>
+
+      <div class="pdf-frame" *ngIf="useCustomRenderer">
+        <div class="pdf-toolbar">
+          <button class="btn small" (click)="zoomOut()">-</button>
+          <button class="btn small" (click)="zoomIn()">+</button>
+          <button class="btn small" (click)="downloadPdf()">Download</button>
+          <button class="btn small" (click)="printPdf()">Print</button>
+        </div>
+        <div id="pdfjs-render-container" class="pdf-render-container"></div>
+      </div>
+
+      <!-- fallback: sanitized iframe (default browser/pdf viewer) -->
+      <div class="pdf-frame" *ngIf="!useCustomRenderer && safePdfUrl">
+        <iframe [src]="safePdfUrl" frameborder="0"></iframe>
       </div>
   </div>
 

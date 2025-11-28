@@ -44,4 +44,13 @@ export class ResumeUploadService {
       })
     );
   }
+
+  /**
+   * Call the server to generate a cover letter PDF. Expects JSON payload.
+   * Returns the PDF as a Blob.
+   */
+  generateCoverLetter(payload: any): Observable<Blob> {
+    const url = `${this.baseUrl}/coverletter/generate`;
+    return this.http.post(url, payload, { responseType: 'blob' as 'blob' });
+  }
 }

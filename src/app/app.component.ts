@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ResumeUploadService } from './services/resume-upload.service';
 import { CommonModule } from '@angular/common';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
@@ -20,17 +21,52 @@ export class AppComponent implements OnInit, OnDestroy {
   title = 'AI Cover Letter Generator';
   currentPage: 'landing' | 'home' | 'login' | 'register' | 'job-form' | 'cover-preview' = 'landing';
   generatedCoverLetter: string | null = null;
+  generatedPdfUrl: string | null = null;
+  isGenerating = false;
+  generateMessage = 'AI is generating your cover letter...';
+
+  constructor(private resumeService: ResumeUploadService) {}
 
   private onNavigate = (e: Event) => {
     // set a sample/placeholder while generation would run
-    this.generatedCoverLetter = `Dear Hiring Manager,
-
-Thank you for reviewing my application. I'm excited about the opportunity and believe my experience aligns well with the role.
-
-I look forward to discussing how I can contribute to your team.
-
-Sincerely,\n[Your Name]`;
+    this.generatedCoverLetter = "";
     this.currentPage = 'cover-preview';
+  };
+
+  onJobSave = (payload: any) => {
+    debugger;
+    // clear prior PDF url if any
+    if (this.generatedPdfUrl) {
+      try { URL.revokeObjectURL(this.generatedPdfUrl); } catch {}
+      this.generatedPdfUrl = null;
+    }
+    // show placeholder or loader; for now, clear text
+    this.generatedCoverLetter = null;
+    this.currentPage = 'cover-preview';
+
+    // call backend to generate PDF
+    this.isGenerating = true;
+    try {
+      this.resumeService.generateCoverLetter(payload).subscribe({
+        next: (blob: Blob) => {
+          this.isGenerating = false;
+          try {
+            this.generatedPdfUrl = URL.createObjectURL(blob);
+          } catch (err) {
+            console.error('Could not create PDF URL', err);
+          }
+        },
+        error: (err) => {
+          this.isGenerating = false;
+          console.error('Generate cover letter failed', err);
+          this.generatedCoverLetter = 'Failed to generate cover letter PDF.';
+        }
+      });
+    } catch (err) {
+      this.isGenerating = false;
+      console.error(err);
+      this.generatedCoverLetter = 'Failed to generate cover letter PDF.';
+    }
   };
 
   showLoginPage(): void {
