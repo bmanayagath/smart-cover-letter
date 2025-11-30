@@ -77,6 +77,7 @@ export class RegisterComponent implements OnInit {
 
     // structure: { message: '...' } or simple string
     if (typeof body === 'string') return [body];
+    if (typeof body.error === 'string') return [body.error];
     if (body?.message) return [body.message];
 
     // fallback to generic message from HttpErrorResponse
